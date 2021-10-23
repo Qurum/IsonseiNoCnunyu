@@ -61,4 +61,8 @@ class ImplementationMapper
     public function getImplementationsByType($type){
         return $this->map[$type];
     }
+
+    public function has($type){
+        return !empty($this->map[$type]);
+    }
 }

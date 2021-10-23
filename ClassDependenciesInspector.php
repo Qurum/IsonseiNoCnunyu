@@ -28,7 +28,9 @@ class ClassDependenciesInspector
             if (!$parameter->hasType()) {
                 throw new \Exception("Parameter {$parameter->name} must have a type");
             }
-            $result[] = '\\' . $parameter->getType()->getName();
+            $type = $parameter->getType();
+            $prefix = $type->isBuiltin()? '' : '\\';
+            $result[] = $prefix . $parameter->getType()->getName();
         }
         return $result;
     }
