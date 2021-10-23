@@ -10,6 +10,7 @@ class ImplementationMapper
 {
     protected ClassNamesProvider $provider;
     protected $map = [];
+    protected $implementations = [];
 
     public function __construct(
         protected $path,
@@ -32,6 +33,8 @@ class ImplementationMapper
                     continue;
                 }
 
+                $this->implementations[] = $class;
+
                 foreach ($a->getInterfaces() as $interface) {
                     $this->map[$interface][] = $class;
                 }
@@ -51,7 +54,11 @@ class ImplementationMapper
         return $this->map;
     }
 
-    public function getImplementations($type){
+    public function getImplementations(){
+        return $this->implementations;
+    }
+
+    public function getImplementationsByType($type){
         return $this->map[$type];
     }
 }
