@@ -21,6 +21,6 @@ class ConfigTest extends TestCase
         $conf_object = new Config(PATH_TO_TESTS_RESOURCES . DIRECTORY_SEPARATOR . $path);
         $conf_array = (array)$conf_object;
         $conf_array = array_pop($conf_array);
-        $this->assertEquals($conf_array, $data);
+        $this->assertEquals($data, $conf_array);
     }
 }
