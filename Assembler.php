@@ -19,8 +19,15 @@ class Assembler
     protected function assembleArgs($arg_names){
         $args = [];
         foreach($arg_names as $arg_name){
-            $arg = $this->service_provider->getAssembly($arg_name);
-            $args[] = $this->assemble($arg);
+            $arg = '';
+            $prefix = 'str:';
+            if(str_starts_with($arg_name, $prefix)) {
+                $arg = trim(substr($arg_name, strlen($prefix)));
+            } else {
+                $arg = $this->service_provider->getAssembly($arg_name);
+                $arg = $this->assemble($arg);
+            }
+            $args[] = $arg;
         }
         return $args;
     }
@@ -33,7 +40,8 @@ class Assembler
         $instance =  $class->newInstanceArgs($args);
         $setup_callback = function($setup) use ($instance){
             $method = new ReflectionMethod($instance, $setup['method']);
-            $method->invokeArgs($instance, $setup['args']);
+
+            $method->invokeArgs($instance, $this->assembleArgs($setup['args']));
         };
         $setup = $item->getSetup();
         array_walk($setup, $setup_callback);
