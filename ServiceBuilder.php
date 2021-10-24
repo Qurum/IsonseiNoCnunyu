@@ -8,18 +8,28 @@ namespace Abethropalle\IsonseiNoChunyu;
 
 class ServiceBuilder
 {
-    protected $service = [
-        'name' => '',
-        'factory' => '',
-        'setup' => []
-    ];
+    protected $service;
+
+    public function __construct(){
+        $this->reset();
+    }
+
+    public function reset(){
+        $this->service = [
+            'name' => '',
+            'factory' => '',
+            'args' => [],
+            'setup' => []
+        ];
+    }
 
     public function setName($name){
         $this->service['name'] = $name;
     }
 
-    public function setFactory($type){
-        $this->service['factory'] = $type;
+    public function setFactory($factory, $args = []){
+        $this->service['factory'] = $factory;
+        $this->service['args'] = $args;
     }
 
     public function addSetup($method, $args = []){
