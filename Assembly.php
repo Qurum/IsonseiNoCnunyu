@@ -22,4 +22,8 @@ class Assembly
     public function getConstructorArgs(){
         return $this->args;
     }
+
+    public function getSetup(){
+        return $this->setup;
+    }
 }

@@ -10,7 +10,8 @@ class ServiceDirector
 {
     protected $builder;
 
-    public function setBuilder($builder){
+    public function setBuilder($builder)
+    {
         $this->builder = $builder;
     }
 
@@ -28,7 +29,8 @@ class ServiceDirector
         }
     }
 
-    protected function addFactory($item){
+    protected function addFactory($item)
+    {
         switch (gettype($item)) {
             case 'string':
                 $this->builder->setFactory($item);
@@ -41,7 +43,8 @@ class ServiceDirector
         }
     }
 
-    public function createService($name, $data){
+    public function createService($name, $data)
+    {
         $this->builder->reset();
         $this->builder->setName($name);
         switch (gettype($data)) {

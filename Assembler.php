@@ -13,15 +13,27 @@ class Assembler
     ){
     }
 
-    public function assemble(Assembly $item)
-    {
-        $factory = $item->getClass();
+    protected function assembleArgs($arg_names){
         $args = [];
-        foreach($item->getConstructorArgs() as $arg_name){
+        foreach($arg_names as $arg_name){
             $arg = $this->service_provider->getAssembly($arg_name);
             $args[] = $this->assemble($arg);
         }
+        return $args;
+    }
+
+    public function assemble(Assembly $item)
+    {
+        $factory = $item->getClass();
+        $args = $this->assembleArgs($item->getConstructorArgs());
         $class = new \ReflectionClass($factory);
-        return $class->newInstanceArgs($args);
+        $instance =  $class->newInstanceArgs($args);
+        $setup_callback = function($setup) use ($instance){
+            $method = new \ReflectionMethod($instance, $setup['method']);
+            $method->invokeArgs($instance, $setup['args']);
+        };
+        $setup = $item->getSetup();
+        array_walk($setup, $setup_callback);
+        return $instance;
     }
 }
