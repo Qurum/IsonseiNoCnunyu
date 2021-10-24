@@ -56,7 +56,7 @@ class ServiceDirector
 
             case 'array':
                 empty($data['factory'])
-                    ? throw new Exception("Factory not found")
+                    ? $this->addFactory($name)
                     : $this->addFactory($data['factory']);
 
                 empty($data['setup'])

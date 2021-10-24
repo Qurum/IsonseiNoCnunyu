@@ -29,17 +29,21 @@ class ServiceBuilder
 
     public function setFactory($factory, $args = []){
         $this->service['factory'] = $factory;
-        $this->service['args'] = $args;
+        $this->service['args'] = $this->wrapArgs($args);
     }
 
     public function addSetup($method, $args = []){
         $this->service['setup'][] = [
                 'method' => $method,
-                'args' => $args
+                'args' => $this->wrapArgs($args)
             ];
     }
 
     public function build(){
         return (object) $this->service;
+    }
+
+    protected function wrapArgs($args){
+        return is_array($args)?$args:[$args];
     }
 }
