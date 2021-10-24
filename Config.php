@@ -6,9 +6,10 @@
 
 namespace Abethropalle\IsonseiNoChunyu;
 
+use ArrayAccess;
 use Symfony\Component\Yaml\Yaml;
 
-class Config implements \ArrayAccess
+class Config implements ArrayAccess
 {
     protected $container = [];
 

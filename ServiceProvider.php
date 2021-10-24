@@ -6,6 +6,9 @@
 
 namespace Abethropalle\IsonseiNoChunyu;
 
+use Exception;
+use ReflectionClass;
+
 class ServiceProvider
 {
     protected $services;
@@ -58,12 +61,12 @@ class ServiceProvider
         }
 
         if (class_exists($name)) {
-            $reflection = new \ReflectionClass($name);
+            $reflection = new ReflectionClass($name);
             if ($reflection->isInstantiable()) {
                 return $name;
             }
-        };
-        throw new \Exception("Service $name has no factory");
+        }
+        throw new Exception("Service $name has no factory");
     }
 
     protected function getServiceArgs($name)
@@ -88,11 +91,11 @@ class ServiceProvider
         $type = $this->getServiceType($name);
         $impl = $this->implementation_mapper->getImplementationsByType($type);
         if (empty($impl)) {
-            throw new \Exception("Factory $type has no implementation");
+            throw new Exception("Factory $type has no implementation");
         }
 
         if (count($impl) != 1) {
-            throw new \Exception("Factory $type has multiple implementations");
+            throw new Exception("Factory $type has multiple implementations");
         }
 
         return new Assembly(array_pop($impl), $this->getServiceArgs($name), $this->getServiceSetup($name));

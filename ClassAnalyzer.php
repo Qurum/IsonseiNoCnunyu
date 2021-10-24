@@ -6,6 +6,8 @@
 
 namespace Abethropalle\IsonseiNoChunyu;
 
+use ReflectionClass;
+
 class ClassAnalyzer
 {
     protected $reflection_class;
@@ -14,7 +16,7 @@ class ClassAnalyzer
         protected $class_name
     )
     {
-        $this->reflection_class = new \ReflectionClass($this->class_name);
+        $this->reflection_class = new ReflectionClass($this->class_name);
     }
 
     public function getParentClasses()

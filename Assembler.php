@@ -6,6 +6,9 @@
 
 namespace Abethropalle\IsonseiNoChunyu;
 
+use ReflectionClass;
+use ReflectionMethod;
+
 class Assembler
 {
     public function __construct(
@@ -26,10 +29,10 @@ class Assembler
     {
         $factory = $item->getClass();
         $args = $this->assembleArgs($item->getConstructorArgs());
-        $class = new \ReflectionClass($factory);
+        $class = new ReflectionClass($factory);
         $instance =  $class->newInstanceArgs($args);
         $setup_callback = function($setup) use ($instance){
-            $method = new \ReflectionMethod($instance, $setup['method']);
+            $method = new ReflectionMethod($instance, $setup['method']);
             $method->invokeArgs($instance, $setup['args']);
         };
         $setup = $item->getSetup();

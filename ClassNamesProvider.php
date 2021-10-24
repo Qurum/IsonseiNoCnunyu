@@ -6,6 +6,9 @@
 
 namespace Abethropalle\IsonseiNoChunyu;
 
+use Exception;
+use Generator;
+
 /**
  * Провайдер для имён классов.
  *
@@ -17,7 +20,7 @@ class ClassNamesProvider
     /**
      * @param string $path
      * @param string $namespace
-     * @throws \Exception
+     * @throws Exception
      */
     public function __construct(
         protected string $path,
@@ -29,22 +32,22 @@ class ClassNamesProvider
 
     /**
      * Проверка доступности директории.
-     * @throws \Exception
+     * @throws Exception
      */
     protected function check()
     {
         if (!is_dir($this->path)) {
-            throw new \Exception("Directory {$this->path} does not exist");
+            throw new Exception("Directory {$this->path} does not exist");
         }
 
         if(!is_readable($this->path)){
-            throw new \Exception("{$this->path} is not readable");
+            throw new Exception("{$this->path} is not readable");
         }
     }
 
     /**
      * Генератор имен классов.
-     * @return \Generator
+     * @return Generator
      */
     public function nextClass()
     {

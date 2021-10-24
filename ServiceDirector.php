@@ -6,6 +6,8 @@
 
 namespace Abethropalle\IsonseiNoChunyu;
 
+use Exception;
+
 class ServiceDirector
 {
     protected $builder;
@@ -54,7 +56,7 @@ class ServiceDirector
 
             case 'array':
                 empty($data['factory'])
-                    ? throw new \Exception("Factory not found")
+                    ? throw new Exception("Factory not found")
                     : $this->addFactory($data['factory']);
 
                 empty($data['setup'])

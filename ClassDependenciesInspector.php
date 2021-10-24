@@ -6,6 +6,10 @@
 
 namespace Abethropalle\IsonseiNoChunyu;
 
+use Exception;
+use ReflectionClass;
+use ReflectionMethod;
+
 class ClassDependenciesInspector
 {
     protected $reflection_class;
@@ -15,10 +19,10 @@ class ClassDependenciesInspector
         protected $setup_methods = []
     )
     {
-        $this->reflection_class = new \ReflectionClass($this->class_name);
+        $this->reflection_class = new ReflectionClass($this->class_name);
     }
 
-    protected function getMethodDependencies(\ReflectionMethod $method)
+    protected function getMethodDependencies(ReflectionMethod $method)
     {
         $result = [];
         foreach ($method->getParameters() as $parameter) {
@@ -26,7 +30,7 @@ class ClassDependenciesInspector
                 continue;
             }
             if (!$parameter->hasType()) {
-                throw new \Exception("Parameter {$parameter->name} must have a type");
+                throw new Exception("Parameter {$parameter->name} must have a type");
             }
             $type = $parameter->getType();
             $prefix = $type->isBuiltin()? '' : '\\';
@@ -40,7 +44,7 @@ class ClassDependenciesInspector
         $result = [];
         foreach ($this->setup_methods as $method_name) {
             if (!$this->reflection_class->hasMethod($method_name)) {
-                throw new \Exception("There is no method $method_name");
+                throw new Exception("There is no method $method_name");
             }
             $method = $this->reflection_class->getMethod($method_name);
             $result = array_merge($result, $this->getMethodDependencies($method));
