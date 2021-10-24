@@ -11,14 +11,11 @@ class Assembler
     public function __construct(
         protected ServiceProvider $service_provider
     ){
-
     }
 
     public function assemble(Assembly $item)
     {
-        echo PHP_EOL;
         $factory = $item->getClass();
-        echo "Собираем $factory", PHP_EOL;
         $args = [];
         foreach($item->getConstructorArgs() as $arg_name){
             $arg = $this->service_provider->getAssembly($arg_name);
