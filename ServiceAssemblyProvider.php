@@ -56,11 +56,7 @@ class ServiceAssemblyProvider
     {
         if (!empty($this->services[$name])) {
             $factory = $this->services[$name]->factory;
-            if (class_exists($factory)) {
-                return $factory;
-            } else {
-                return $this->namespace . '\\' . $factory;
-            }
+            return $factory;
         }
 
         if (class_exists($name)) {
