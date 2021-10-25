@@ -6,12 +6,9 @@
 
 namespace Abethropalle\IsonseiNoChunyu;
 
-abstract class ServiceDirector implements ServiceDirectorInterface
+interface ServiceDirectorInterface
 {
-    protected $builder;
+    public function setBuilder($builder);
 
-    public function setBuilder($builder)
-    {
-        $this->builder = $builder;
-    }
+    public function createService($name, $data);
 }

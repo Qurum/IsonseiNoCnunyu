@@ -22,7 +22,7 @@ class ServiceProvider
     {
         $config = new Config($config_path);
         $this->services = [];
-        $director = new ServiceDirector();
+        $director = new ExplicityServiceDirector();
         $builder = new ServiceBuilder();
         $director->setBuilder($builder);
 
