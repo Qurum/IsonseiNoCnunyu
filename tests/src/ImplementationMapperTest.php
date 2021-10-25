@@ -20,7 +20,8 @@ class ImplementationMapperTest extends TestCase
         $this->assertEquals($expected_map, $actual_map);
     }
 
-    public function provider(){
+    public function provider()
+    {
         $map_DataTransferProjectStub = [
             "\Abethropalle\DataTransferProjectStub\LoggerInterface" => [
                 "Abethropalle\DataTransferProjectStub\EchoLogger",

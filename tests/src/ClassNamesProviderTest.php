@@ -17,14 +17,15 @@ class ClassNamesProviderTest extends TestCase
     {
         $provider = new ClassNamesProvider(PATH_TO_DATATRANSFERPROJECTSTUB, '\Abethropalle\DataTransferProjectStub');
         $classes = [];
-        foreach($provider->nextClass() as $class){
+        foreach ($provider->nextClass() as $class) {
             $classes[] = $class;
         }
         sort($classes);
         $this->assertEquals($expected_list, $classes);
     }
 
-    public function provider(){
+    public function provider()
+    {
         $classes_DataTransferProjectStub = [
             '\Abethropalle\DataTransferProjectStub\AdapterInterface',
             '\Abethropalle\DataTransferProjectStub\BasicAdapter',

@@ -25,7 +25,7 @@ class ClassDependenciesInspectorTest extends TestCase
                 [
                     '\Abethropalle\DataTransferProjectStub\EchoLogger',
                     []
-            ],
+                ],
 
             'FileLogger' =>
                 [
