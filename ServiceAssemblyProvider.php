@@ -9,7 +9,7 @@ namespace Abethropalle\IsonseiNoChunyu;
 use Exception;
 use ReflectionClass;
 
-class ServiceProvider
+class ServiceAssemblyProvider
 {
     protected $services;
     protected $implementation_mapper;
@@ -88,7 +88,7 @@ class ServiceProvider
         return $this->services[$name]?->setup ?? [];
     }
 
-    public function getAssembly(string $name): Assembly
+    public function get(string $name): Assembly
     {
         $type = $this->getServiceType($name);
         $impl = $this->implementation_mapper->getImplementationsByType($type);

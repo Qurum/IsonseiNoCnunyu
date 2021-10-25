@@ -12,7 +12,7 @@ use ReflectionMethod;
 class Assembler
 {
     public function __construct(
-        protected ServiceProvider $service_provider
+        protected ServiceAssemblyProvider $service_provider
     ){
     }
 
@@ -24,7 +24,7 @@ class Assembler
             if(str_starts_with($arg_name, $prefix)) {
                 $arg = trim(substr($arg_name, strlen($prefix)));
             } else {
-                $arg = $this->service_provider->getAssembly($arg_name);
+                $arg = $this->service_provider->get($arg_name);
                 $arg = $this->assemble($arg);
             }
             $args[] = $arg;
