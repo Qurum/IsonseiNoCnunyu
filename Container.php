@@ -6,7 +6,14 @@
 
 namespace Abethropalle\IsonseiNoChunyu;
 
+use Abethropalle\Utils\Graph\GraphBuilder;
+
 class Container
 {
+    protected ServiceAssemblyProvider$service_provider;
 
+    public function setServiceAssemblyProvider(ServiceAssemblyProvider $sp)
+    {
+        $this->service_provider = $sp;
+    }
 }
