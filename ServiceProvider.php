@@ -13,6 +13,7 @@ class ServiceProvider
 {
     protected $services;
     protected $implementation_mapper;
+    protected $config;
 
     public function __construct(
         $config_path,
@@ -20,13 +21,15 @@ class ServiceProvider
         $path = ''
     )
     {
-        $config = new Config($config_path);
-
         $this->implementation_mapper = new ImplementationMapper($path, $namespace);
-        $this->services = [];
+        $this->registerServices($path, new Config($config_path));
+    }
 
+    protected function registerServices($path, $config){
+        $this->services = [];
         $builder = new ServiceBuilder();
 
+        // services from disk
         $autowir_director = new AutowiredServiceDirector();
         $autowir_director->setBuilder($builder);
         $provider = new ClassNamesProvider($path, $this->namespace);
@@ -35,6 +38,7 @@ class ServiceProvider
             $this->services[$service_name] = $autowir_director->createService($service_name, ['class_name' => $class_name]);
         }
 
+        // services from config
         $expl_director = new ExplicityServiceDirector();
         $expl_director->setBuilder($builder);
         foreach ($config['services'] as $name => $data) {
