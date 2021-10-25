@@ -29,7 +29,7 @@ class ImplementationMapper
                 interface_exists($class, true)
             ) {
                 $a = new ClassAnalyzer($class);
-                if(! $a->isConcrete()){
+                if (!$a->isConcrete()) {
                     continue;
                 }
 
@@ -50,19 +50,23 @@ class ImplementationMapper
         }
     }
 
-    public function getMap(){
+    public function getMap()
+    {
         return $this->map;
     }
 
-    public function getImplementations(){
+    public function getImplementations()
+    {
         return $this->implementations;
     }
 
-    public function getImplementationsByType($type){
+    public function getImplementationsByType($type)
+    {
         return $this->map[$type];
     }
 
-    public function has($type){
+    public function has($type)
+    {
         return !empty($this->map[$type]);
     }
 }

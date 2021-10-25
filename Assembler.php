@@ -13,15 +13,17 @@ class Assembler
 {
     public function __construct(
         protected ServiceAssemblyProvider $service_provider
-    ){
+    )
+    {
     }
 
-    protected function assembleArgs($arg_names){
+    protected function assembleArgs($arg_names)
+    {
         $args = [];
-        foreach($arg_names as $arg_name){
+        foreach ($arg_names as $arg_name) {
             $arg = '';
             $prefix = 'str:';
-            if(str_starts_with($arg_name, $prefix)) {
+            if (str_starts_with($arg_name, $prefix)) {
                 $arg = trim(substr($arg_name, strlen($prefix)));
             } else {
                 $arg = $this->service_provider->get($arg_name);
@@ -37,8 +39,8 @@ class Assembler
         $factory = $item->getClass();
         $args = $this->assembleArgs($item->getConstructorArgs());
         $class = new ReflectionClass($factory);
-        $instance =  $class->newInstanceArgs($args);
-        $setup_callback = function($setup) use ($instance){
+        $instance = $class->newInstanceArgs($args);
+        $setup_callback = function ($setup) use ($instance) {
             $method = new ReflectionMethod($instance, $setup['method']);
 
             $method->invokeArgs($instance, $this->assembleArgs($setup['args']));

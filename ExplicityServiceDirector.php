@@ -10,34 +10,6 @@ use Exception;
 
 class ExplicityServiceDirector extends ServiceDirector
 {
-    protected function addSetup($item)
-    {
-        switch (gettype($item)) {
-            case 'string':
-                $this->builder->addSetup($item);
-                break;
-
-            case 'array':
-                $callback = fn($data, $key) => $this->builder->addSetup($key, $data);
-                array_walk($item, $callback);
-                break;
-        }
-    }
-
-    protected function addFactory($item)
-    {
-        switch (gettype($item)) {
-            case 'string':
-                $this->builder->setFactory($item);
-                break;
-
-            case 'array':
-                $callback = fn($data, $key) => $this->builder->setFactory($key, $data);
-                array_walk($item, $callback);
-                break;
-        }
-    }
-
     public function createService($name, $data)
     {
         $this->builder->reset();
@@ -57,5 +29,33 @@ class ExplicityServiceDirector extends ServiceDirector
                 break;
         }
         return $this->builder->build();
+    }
+
+    protected function addFactory($item)
+    {
+        switch (gettype($item)) {
+            case 'string':
+                $this->builder->setFactory($item);
+                break;
+
+            case 'array':
+                $callback = fn($data, $key) => $this->builder->setFactory($key, $data);
+                array_walk($item, $callback);
+                break;
+        }
+    }
+
+    protected function addSetup($item)
+    {
+        switch (gettype($item)) {
+            case 'string':
+                $this->builder->addSetup($item);
+                break;
+
+            case 'array':
+                $callback = fn($data, $key) => $this->builder->addSetup($key, $data);
+                array_walk($item, $callback);
+                break;
+        }
     }
 }

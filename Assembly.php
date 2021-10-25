@@ -10,20 +10,24 @@ class Assembly
 {
     public function __construct(
         protected string $class,
-        protected array $args = [],
-        protected array $setup = []
-    ){
+        protected array  $args = [],
+        protected array  $setup = []
+    )
+    {
     }
 
-    public function getClass(){
+    public function getClass()
+    {
         return $this->class;
     }
 
-    public function getConstructorArgs(){
+    public function getConstructorArgs()
+    {
         return $this->args;
     }
 
-    public function getSetup(){
+    public function getSetup()
+    {
         return $this->setup;
     }
 }

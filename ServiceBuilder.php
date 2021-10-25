@@ -10,11 +10,13 @@ class ServiceBuilder
 {
     protected $service;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->reset();
     }
 
-    public function reset(){
+    public function reset()
+    {
         $this->service = [
             'name' => '',
             'factory' => '',
@@ -23,27 +25,32 @@ class ServiceBuilder
         ];
     }
 
-    public function setName($name){
+    public function setName($name)
+    {
         $this->service['name'] = $name;
     }
 
-    public function setFactory($factory, $args = []){
+    public function setFactory($factory, $args = [])
+    {
         $this->service['factory'] = $factory;
         $this->service['args'] = $this->wrapArgs($args);
     }
 
-    public function addSetup($method, $args = []){
+    protected function wrapArgs($args)
+    {
+        return is_array($args) ? $args : [$args];
+    }
+
+    public function addSetup($method, $args = [])
+    {
         $this->service['setup'][] = [
-                'method' => $method,
-                'args' => $this->wrapArgs($args)
-            ];
+            'method' => $method,
+            'args' => $this->wrapArgs($args)
+        ];
     }
 
-    public function build(){
-        return (object) $this->service;
-    }
-
-    protected function wrapArgs($args){
-        return is_array($args)?$args:[$args];
+    public function build()
+    {
+        return (object)$this->service;
     }
 }

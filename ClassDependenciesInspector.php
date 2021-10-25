@@ -33,7 +33,7 @@ class ClassDependenciesInspector
                 throw new Exception("Parameter {$parameter->name} must have a type");
             }
             $type = $parameter->getType();
-            $prefix = $type->isBuiltin()? '' : '\\';
+            $prefix = $type->isBuiltin() ? '' : '\\';
             $result[] = $prefix . $parameter->getType()->getName();
         }
         return $result;

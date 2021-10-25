@@ -13,11 +13,13 @@ class Config implements ArrayAccess
 {
     protected $container = [];
 
-    public function __construct($path){
+    public function __construct($path)
+    {
         $this->container = Yaml::parseFile($path);
     }
 
-    public function offsetSet($offset, $value) {
+    public function offsetSet($offset, $value)
+    {
         if (is_null($offset)) {
             $this->container[] = $value;
         } else {
@@ -25,15 +27,18 @@ class Config implements ArrayAccess
         }
     }
 
-    public function offsetExists($offset) {
+    public function offsetExists($offset)
+    {
         return isset($this->container[$offset]);
     }
 
-    public function offsetUnset($offset) {
+    public function offsetUnset($offset)
+    {
         unset($this->container[$offset]);
     }
 
-    public function offsetGet($offset) {
+    public function offsetGet($offset)
+    {
         return isset($this->container[$offset]) ? $this->container[$offset] : null;
     }
 }

@@ -40,7 +40,7 @@ class ClassNamesProvider
             throw new Exception("Directory {$this->path} does not exist");
         }
 
-        if(!is_readable($this->path)){
+        if (!is_readable($this->path)) {
             throw new Exception("{$this->path} is not readable");
         }
     }

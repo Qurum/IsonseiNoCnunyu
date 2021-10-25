@@ -38,15 +38,18 @@ class ClassAnalyzer
         return array_map(fn($name) => '\\' . $name, $this->reflection_class->getInterfaceNames());
     }
 
-    public function isAbstract(){
+    public function isAbstract()
+    {
         return $this->reflection_class->isAbstract();
     }
 
-    public function isConcrete(){
+    public function isConcrete()
+    {
         return $this->reflection_class->isInstantiable();
     }
 
-    public function isInterface(){
+    public function isInterface()
+    {
         return $this->reflection_class->isInterface();
     }
 }
