@@ -25,7 +25,8 @@ class ServiceAssemblyProvider
         $this->registerServices($path, new Config($config_path));
     }
 
-    protected function registerServices($path, $config){
+    protected function registerServices($path, $config)
+    {
         $this->services = [];
         $builder = new ServiceBuilder();
 
