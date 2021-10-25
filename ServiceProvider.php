@@ -21,27 +21,25 @@ class ServiceProvider
     )
     {
         $config = new Config($config_path);
-        $this->services = [];
-        $director = new ExplicityServiceDirector();
-        $builder = new ServiceBuilder();
-        $director->setBuilder($builder);
 
+        $this->implementation_mapper = new ImplementationMapper($path, $namespace);
+        $this->services = [];
+
+        $builder = new ServiceBuilder();
+
+        $autowir_director = new AutowiredServiceDirector();
+        $autowir_director->setBuilder($builder);
         $provider = new ClassNamesProvider($path, $this->namespace);
         foreach ($provider->nextClass() as $class_name) {
-            $class_inspector = new ClassDependenciesInspector($class_name);
             $service_name = substr($class_name, strlen($this->namespace) + 1);
-            $builder->reset();
-            $builder->setName($service_name);
-            $builder->setFactory(
-                $class_name,
-                $class_inspector->getConstructorDependencies());
-            $this->services[$service_name] = $builder->build();
+            $this->services[$service_name] = $autowir_director->createService($service_name, ['class_name' => $class_name]);
         }
 
+        $expl_director = new ExplicityServiceDirector();
+        $expl_director->setBuilder($builder);
         foreach ($config['services'] as $name => $data) {
-            $this->services[$name] = $director->createService($name, $data);
+            $this->services[$name] = $expl_director->createService($name, $data);
         }
-        $this->implementation_mapper = new ImplementationMapper($path, $namespace);
     }
 
     public function has($name)
