@@ -8,6 +8,9 @@ namespace Abethropalle\IsonseiNoChunyu;
 
 use Exception;
 
+/**
+ * Директор для сервисов, описанных в конфигурационном файле.
+ */
 class ExplicityServiceDirector extends ServiceDirector
 {
     public function createService($name, $data)

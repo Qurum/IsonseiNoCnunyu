@@ -6,10 +6,16 @@
 
 namespace Abethropalle\IsonseiNoChunyu;
 
+/**
+ * Выделена общая для всех директоров установка Строителя.
+ */
 abstract class ServiceDirector implements ServiceDirectorInterface
 {
     protected $builder;
 
+    /**
+     * @param $builder
+     */
     public function setBuilder($builder)
     {
         $this->builder = $builder;

@@ -6,6 +6,11 @@
 
 namespace Abethropalle\IsonseiNoChunyu;
 
+/**
+ * Инкапсулирует сопоставление имя интерфейса => массив имён имплементирующих классов.
+ * Обнаруживает классы с помощью провайдера.
+ * Используются полностью квалифицированные имена классов (т.е. с указанным неймспейсом).
+ */
 class ImplementationMapper
 {
     protected ClassNamesProvider $provider;
@@ -21,6 +26,9 @@ class ImplementationMapper
         $this->createMap();
     }
 
+    /**
+     * С помощью провайдера создаёт массив имплементаций.
+     */
     protected function createMap()
     {
         foreach ($this->provider->nextClass() as $class) {
@@ -50,16 +58,32 @@ class ImplementationMapper
         }
     }
 
+    /**
+     * Отображение интерфейс => массив имплементаций.
+     *
+     * @return array
+     */
     public function getMap()
     {
         return $this->map;
     }
 
+    /**
+     * Возвращает массив имён конкретных классов - тех классов, экземпляры которых могут быть созданы.
+     *
+     * @return array
+     */
     public function getImplementations()
     {
         return $this->implementations;
     }
 
+    /**
+     * Возвращает массив имплементаций для указанного типа.
+     *
+     * @param $type
+     * @return mixed
+     */
     public function getImplementationsByType($type)
     {
         return $this->map[$type];

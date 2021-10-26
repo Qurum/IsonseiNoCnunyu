@@ -6,9 +6,25 @@
 
 namespace Abethropalle\IsonseiNoChunyu;
 
+/**
+ * Интерфейс для директоров, создающих сервисы с помощью строителя.
+ */
 interface ServiceDirectorInterface
 {
+    /**
+     * Внедрить Строителя.
+     *
+     * @param $builder
+     * @return mixed
+     */
     public function setBuilder($builder);
 
+    /**
+     * Создать сервис с заданным именем на основе указанных данных.
+     *
+     * @param $name
+     * @param $data
+     * @return mixed
+     */
     public function createService($name, $data);
 }

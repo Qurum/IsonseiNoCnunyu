@@ -6,6 +6,9 @@
 
 namespace Abethropalle\IsonseiNoChunyu;
 
+/**
+ * Строитель объекта stdObject, описывающего сервис
+ */
 class ServiceBuilder
 {
     protected $service;
@@ -15,6 +18,9 @@ class ServiceBuilder
         $this->reset();
     }
 
+    /**
+     * Сбросить строитель.
+     */
     public function reset()
     {
         $this->service = [
@@ -25,11 +31,22 @@ class ServiceBuilder
         ];
     }
 
+    /**
+     * Установить имя сервиса.
+     *
+     * @param $name
+     */
     public function setName($name)
     {
         $this->service['name'] = $name;
     }
 
+    /**
+     * Установить фабрику для сервиса
+     *
+     * @param $factory
+     * @param array $args
+     */
     public function setFactory($factory, $args = [])
     {
         $this->service['factory'] = $factory;
@@ -41,6 +58,13 @@ class ServiceBuilder
         return is_array($args) ? $args : [$args];
     }
 
+    /**
+     * Добавить метод, который будет вызван после создания объекта
+     * с указанным именем будет вызван с указанными аргументами.
+     *
+     * @param $method
+     * @param array $args
+     */
     public function addSetup($method, $args = [])
     {
         $this->service['setup'][] = [
@@ -49,6 +73,11 @@ class ServiceBuilder
         ];
     }
 
+    /**
+     * Построить сервис.
+     *
+     * @return object
+     */
     public function build()
     {
         return (object)$this->service;

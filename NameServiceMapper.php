@@ -9,15 +9,26 @@ namespace Abethropalle\IsonseiNoChunyu;
 use PhpParser\Node\Name;
 use TheSeer\Tokenizer\Exception;
 
+/**
+ * Инкапсулирует сопоставление имя => объект сервиса.
+ * См. описание используемого Строителя
+ */
 class NameServiceMapper
 {
     protected $services = [];
     protected $builder;
     protected $namespace = '';
 
+    /**
+     * @param string $config_path
+     * Путь к файлу конфигурации
+     *
+     * @param string $path
+     * Путь к папке с классами
+     */
     public function __construct(
-        $config_path,
-        $path = ''
+        string $config_path = 'config.php',
+        string $path = ''
     )
     {
         $this->builder = new ServiceBuilder();
@@ -32,12 +43,22 @@ class NameServiceMapper
         return isset($name);
     }
 
+    /**
+     * Возвращает объект сервиса, соответствующий имени
+     *
+     * @param $name
+     * @return mixed
+     */
     public function get($name)
     {
         $name = NameHelper::get($name)->short;
         return $this->services[$name];
     }
 
+    /**
+     * @param $path
+     * @throws \Exception
+     */
     protected function fromDisk($path)
     {
         $autowir_director = new AutowiredServiceDirector();
@@ -49,6 +70,9 @@ class NameServiceMapper
         }
     }
 
+    /**
+     * @param $config
+     */
     protected function fromConfig($config)
     {
         $expl_director = new ExplicityServiceDirector();

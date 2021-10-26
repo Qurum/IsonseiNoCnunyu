@@ -9,6 +9,9 @@ namespace Abethropalle\IsonseiNoChunyu;
 use ArrayAccess;
 use Symfony\Component\Yaml\Yaml;
 
+/**
+ * Простая обёртка для файлов в yaml на основе компонента Symphony\Yaml
+ */
 class Config implements ArrayAccess
 {
     protected $container = [];
