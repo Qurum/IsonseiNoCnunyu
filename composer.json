@@ -23,9 +23,6 @@
   "minimum-stability": "dev",
 
   "autoload": {
-    "files": [
-      "constants.php"
-    ],
     "psr-4": {
       "Abethropalle\\IsonseiNoChunyu\\": "src\\",
       "Abethropalle\\IsonseiNoChunyu\\Tests\\": "tests\\src",
