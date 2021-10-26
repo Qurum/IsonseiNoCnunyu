@@ -50,9 +50,9 @@ class ClassDependenciesInspectorTest extends TestCase
                 [
                     '\Abethropalle\DataTransferProjectStub\Resolver',
                     [
-                        '\Abethropalle\DataTransferProjectStub\AdapterInterface',
-                        '\Abethropalle\DataTransferProjectStub\AdapterInterface',
-                        '\Abethropalle\DataTransferProjectStub\AdapterInterface'
+                        '\Abethropalle\DataTransferProjectStub\JsonXmlAdapter',
+                        '\Abethropalle\DataTransferProjectStub\XmlJsonAdapter',
+                        '\Abethropalle\DataTransferProjectStub\IdentityAdapter'
                     ]
                 ]
         ];
