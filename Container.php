@@ -11,6 +11,16 @@ use Abethropalle\Utils\Graph\GraphBuilder;
 
 class Container
 {
+    public function __construct($path){
+        $this->config = new Config($path);
+        $namespace = isset($this->config['namespace']) ? '\\' . $this->config['namespace'] : '';
+        $dir = $this->config['dir'] ?? '';
+        NameHelper::setNamespace($namespace);
+        $this->service_provider = new ServiceAssemblyProvider($path, $namespace, $dir);
+        $this->assembler = new Assembler($this->service_provider);
+    }
+
+    protected Config $config;
     protected ServiceAssemblyProvider $service_provider;
     protected Assembler $assembler;
     protected array $instances = [];
@@ -33,6 +43,7 @@ class Container
             $result = [];
             foreach ($args as $arg){
                 if(str_starts_with($arg, 'str:')){ continue;}
+                if(in_array($arg, ['bool','int','float','string','array','object','callable','iterable','resource','NULL'])){ continue;}
                 $result[] = [$service_name, $arg];
                 $result = array_merge($result, $this->getDependenciesTuples($arg));
             }
