@@ -33,8 +33,8 @@ class Container
 
         NameHelper::setNamespace($namespace);
         $this->service_provider = new ServiceAssemblyProvider($path, $namespace, $dir);
-        $this->assembler = new Assembler($this->service_provider);
         $this->instances = new InstancesContainer();
+        $this->assembler = new Assembler($this->service_provider, $this->instances);
     }
 
     /**

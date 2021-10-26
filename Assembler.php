@@ -12,7 +12,8 @@ use ReflectionMethod;
 class Assembler
 {
     public function __construct(
-        protected ServiceAssemblyProvider $service_provider
+        protected ServiceAssemblyProvider $service_provider,
+        protected InstancesContainer $instances_container
     )
     {
     }
@@ -36,6 +37,9 @@ class Assembler
 
     public function assemble(Assembly $item)
     {
+        if($this->instances_container->has($item->getClass())){
+            return $this->instances_container->get($item->getClass());
+        }
         $factory = $item->getClass();
         $args = $this->assembleArgs($item->getConstructorArgs());
         $class = new ReflectionClass($factory);
@@ -46,6 +50,7 @@ class Assembler
         };
         $setup = $item->getSetup();
         array_walk($setup, $setup_callback);
+        $this->instances_container->add($item->getClass(), $instance);
         return $instance;
     }
 }
