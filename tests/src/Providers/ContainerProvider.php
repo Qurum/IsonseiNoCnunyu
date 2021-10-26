@@ -12,7 +12,7 @@ class ContainerProvider
 
     public function provider_DataTransferProjectStub()
     {
-        $path = PATH_TO_RESOURCES;
+        $path = PATH_TO_TESTS_RESOURCES;
         $config_file_path = fn($i) => $path . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'datatransferprojectstub_spec' . $i . '.yaml';
         $container_file_path = fn($i) => $path . DIRECTORY_SEPARATOR . 'container' . DIRECTORY_SEPARATOR . 'datatransferprojectstub_spec' . $i . '_container.dat';
         $items_file_path = fn($i) => $path . DIRECTORY_SEPARATOR . 'container' . DIRECTORY_SEPARATOR . 'datatransferprojectstub_spec' . $i . '_entities.dat';

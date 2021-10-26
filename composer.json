@@ -1,0 +1,30 @@
+{
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://git@github.com/Qurum/abethropalle-utils.git"
+    }
+  ],
+  "require": {
+    "php": "^8.0",
+    "ext-simplexml": "*",
+    "symfony/yaml": "*",
+    "abethropalle/utils": "dev-master"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "*"
+  },
+
+  "minimum-stability": "dev",
+
+  "autoload": {
+    "files": [
+      "constants.php"
+    ],
+    "psr-4": {
+      "Abethropalle\\IsonseiNoChunyu\\": "src\\",
+      "Abethropalle\\IsonseiNoChunyu\\Tests\\": "tests\\src",
+      "Abethropalle\\DataTransferProjectStub\\": "tests\\resources\\DataTransferProjectStub"
+    }
+  }
+}

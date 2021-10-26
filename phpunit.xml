@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<phpunit bootstrap="./vendor/autoload.php">
+
+    <testsuites>
+        <testsuite name="IsonseiNoCnunyu's test suite">
+            <directory>./tests/src</directory>
+        </testsuite>
+    </testsuites>
+
+    <php>
+        <const name="PATH_TO_DATATRANSFERPROJECTSTUB"
+               value="tests/resources/DataTransferProjectStub"/>
+        <const name="PATH_TO_TESTS_RESOURCES"
+               value="tests/resources"/>
+    </php>
+</phpunit>
