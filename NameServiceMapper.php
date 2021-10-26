@@ -37,24 +37,6 @@ class NameServiceMapper
         $this->fromConfig(new Config($config_path));
     }
 
-    public function has($name)
-    {
-        $name = NameHelper::get($name)->short;
-        return isset($name);
-    }
-
-    /**
-     * Возвращает объект сервиса, соответствующий имени
-     *
-     * @param $name
-     * @return mixed
-     */
-    public function get($name)
-    {
-        $name = NameHelper::get($name)->short;
-        return $this->services[$name];
-    }
-
     /**
      * @param $path
      * @throws \Exception
@@ -80,6 +62,24 @@ class NameServiceMapper
         foreach ($config['services'] as $name => $data) {
             $this->services[$name] = $expl_director->createService($name, $data);
         }
+    }
+
+    public function has($name)
+    {
+        $name = NameHelper::get($name)->short;
+        return isset($name);
+    }
+
+    /**
+     * Возвращает объект сервиса, соответствующий имени
+     *
+     * @param $name
+     * @return mixed
+     */
+    public function get($name)
+    {
+        $name = NameHelper::get($name)->short;
+        return $this->services[$name];
     }
 
 }

@@ -22,6 +22,23 @@ class ClassDependenciesInspector
         $this->reflection_class = new ReflectionClass($this->class_name);
     }
 
+    public function getDependencies()
+    {
+        return array_merge(
+            $this->getConstructorDependencies(),
+            $this->getSetupDependencies()
+        );
+    }
+
+    public function getConstructorDependencies()
+    {
+        $constructor = $this->reflection_class->getConstructor();
+        if (is_null($constructor)) {
+            return [];
+        }
+        return $this->getMethodDependencies($constructor);
+    }
+
     protected function getMethodDependencies(ReflectionMethod $method)
     {
         $result = [];
@@ -50,22 +67,5 @@ class ClassDependenciesInspector
             $result = array_merge($result, $this->getMethodDependencies($method));
         }
         return $result;
-    }
-
-    public function getConstructorDependencies()
-    {
-        $constructor = $this->reflection_class->getConstructor();
-        if (is_null($constructor)) {
-            return [];
-        }
-        return $this->getMethodDependencies($constructor);
-    }
-
-    public function getDependencies()
-    {
-        return array_merge(
-            $this->getConstructorDependencies(),
-            $this->getSetupDependencies()
-        );
     }
 }

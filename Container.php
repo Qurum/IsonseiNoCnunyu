@@ -37,62 +37,6 @@ class Container
     }
 
     /**
-     * Строит для данного сервиса массив с описанием графа зависимостей
-     * в виде ["сервис", "зависимость"].
-     * Встроенные типы не учитываются.
-     *
-     * @param $service_name
-     * @return array
-     */
-    protected function getDependenciesTuples($service_name): array
-    {
-        $service = $this->service_provider->get($service_name);
-        $args = $service->getConstructorArgs();
-        if (empty($args)) {
-            return [];
-        } else {
-            $result = [];
-            foreach ($args as $arg) {
-                if (str_starts_with($arg, 'str:')) {
-                    continue;
-                }
-                if (in_array($arg, ['bool', 'int', 'float', 'string', 'array', 'object', 'callable', 'iterable', 'resource', 'NULL'])) {
-                    continue;
-                }
-                $result[] = [$service_name, $arg];
-                $result = array_merge($result, $this->getDependenciesTuples($arg));
-            }
-            return $result;
-        }
-    }
-
-    /**
-     * Проверяет, нет ли циклических зависимостей.
-     * Возвращает объект stdClass с полем result типа bool.
-     * Если цикл присутствует, то он будет описан в поле cycle.
-     *
-     * @param $name
-     * @return object
-     */
-    protected function checkCircularDependencies($name)
-    {
-        // построить граф зависимостей
-        $graph = new GraphBuilder();
-        $callback = fn($arrow) => $graph->arrow($arrow[0], $arrow[1]);
-        $dependencies = $this->getDependenciesTuples($name);
-        array_walk($dependencies, $callback);
-
-        // выполнить поиск цикла
-        $d = new DepthFirstSearchCycleDetector($graph->build());
-        $result = ['result' => $d->detect()];
-        if ($result['result']) {
-            $result['cycle'] = $d->getCycle();
-        }
-
-        return (object)$result;
-    }
-
-    /**
      * Проверяет, зарегистрирован ли сервис в контейнере.
      *
      * @param $name
@@ -133,5 +77,61 @@ class Container
 
         }
         return $this->instances[$name];
+    }
+
+    /**
+     * Проверяет, нет ли циклических зависимостей.
+     * Возвращает объект stdClass с полем result типа bool.
+     * Если цикл присутствует, то он будет описан в поле cycle.
+     *
+     * @param $name
+     * @return object
+     */
+    protected function checkCircularDependencies($name)
+    {
+        // построить граф зависимостей
+        $graph = new GraphBuilder();
+        $callback = fn($arrow) => $graph->arrow($arrow[0], $arrow[1]);
+        $dependencies = $this->getDependenciesTuples($name);
+        array_walk($dependencies, $callback);
+
+        // выполнить поиск цикла
+        $d = new DepthFirstSearchCycleDetector($graph->build());
+        $result = ['result' => $d->detect()];
+        if ($result['result']) {
+            $result['cycle'] = $d->getCycle();
+        }
+
+        return (object)$result;
+    }
+
+    /**
+     * Строит для данного сервиса массив с описанием графа зависимостей
+     * в виде ["сервис", "зависимость"].
+     * Встроенные типы не учитываются.
+     *
+     * @param $service_name
+     * @return array
+     */
+    protected function getDependenciesTuples($service_name): array
+    {
+        $service = $this->service_provider->get($service_name);
+        $args = $service->getConstructorArgs();
+        if (empty($args)) {
+            return [];
+        } else {
+            $result = [];
+            foreach ($args as $arg) {
+                if (str_starts_with($arg, 'str:')) {
+                    continue;
+                }
+                if (in_array($arg, ['bool', 'int', 'float', 'string', 'array', 'object', 'callable', 'iterable', 'resource', 'NULL'])) {
+                    continue;
+                }
+                $result[] = [$service_name, $arg];
+                $result = array_merge($result, $this->getDependenciesTuples($arg));
+            }
+            return $result;
+        }
     }
 }

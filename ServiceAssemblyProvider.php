@@ -35,12 +35,14 @@ class ServiceAssemblyProvider
     }
 
     /**
-     * @param $name
-     * @return bool
+     * @param string $name
+     * @return Assembly
+     * @throws Exception
      */
-    public function has($name)
+    public function get(string $name): Assembly
     {
-        return $this->name_service_mapper->has($name);
+        $impl = $this->getServiceImplementation($name);
+        return new Assembly($impl, $this->getServiceArgs($name), $this->getServiceSetup($name));
     }
 
     /**
@@ -68,6 +70,15 @@ class ServiceAssemblyProvider
         }
 
         return $impl[0];
+    }
+
+    /**
+     * @param $name
+     * @return bool
+     */
+    public function has($name)
+    {
+        return $this->name_service_mapper->has($name);
     }
 
     /**
@@ -100,16 +111,5 @@ class ServiceAssemblyProvider
     protected function getServiceSetup($name)
     {
         return $this->name_service_mapper->get($name)?->setup ?? [];
-    }
-
-    /**
-     * @param string $name
-     * @return Assembly
-     * @throws Exception
-     */
-    public function get(string $name): Assembly
-    {
-        $impl = $this->getServiceImplementation($name);
-        return new Assembly($impl, $this->getServiceArgs($name), $this->getServiceSetup($name));
     }
 }

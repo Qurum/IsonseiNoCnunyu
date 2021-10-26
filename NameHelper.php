@@ -14,20 +14,20 @@ class NameHelper
     protected static $namespace = '';
 
     /**
+     * @return string
+     */
+    public static function getNamespace()
+    {
+        return self::$namespace;
+    }
+
+    /**
      *
      * @param $ns
      */
     public static function setNamespace($ns)
     {
         self::$namespace = $ns;
-    }
-
-    /**
-     * @return string
-     */
-    public static function getNamespace()
-    {
-        return self::$namespace;
     }
 
     /**
