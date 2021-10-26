@@ -76,15 +76,19 @@ class Container
      */
     protected function checkCircularDependencies($name)
     {
+        // построить граф зависимостей
         $graph = new GraphBuilder();
         $callback = fn($arrow) => $graph->arrow($arrow[0], $arrow[1]);
         $dependencies = $this->getDependenciesTuples($name);
         array_walk($dependencies, $callback);
+
+        // выполнить поиск цикла
         $d = new DepthFirstSearchCycleDetector($graph->build());
         $result = ['result' => $d->detect()];
         if ($result['result']) {
             $result['cycle'] = $d->getCycle();
         }
+
         return (object)$result;
     }
 
@@ -114,15 +118,19 @@ class Container
 
         if (!isset($this->instances[$name])) {
             $assembly = $this->service_provider->get($name);
+
+            // Проверка на циклические зависимости
             $has_circular = $this->checkCircularDependencies($name);
             if ($has_circular->result) {
                 throw new \Exception("Циклическая зависимость:" . $has_circular->cycle);
-            } else {
-                if (is_null($this->assembler)) {
-                    throw new \Exception('Ассемблер не установлен');
-                }
-                $this->instances[$name] = $this->assembler->assemble($assembly);
             }
+
+            if (is_null($this->assembler)) {
+                throw new \Exception('Ассемблер не установлен');
+            }
+
+            $this->instances[$name] = $this->assembler->assemble($assembly);
+
         }
         return $this->instances[$name];
     }
