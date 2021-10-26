@@ -1,6 +1,7 @@
 # IsonseiNoCnunyu
 Простая реализация автоматического контейнера зависимостей. 
 
+### Usage
 ```php
 use Abethropalle\IsonseiNoChunyu\Container;
 
@@ -46,4 +47,36 @@ services:
     some_service2: some_factory2
 ```
 
+Методу (в т.ч. конструктору) может быть передана строка, начинающаяся с префикса str:
+```yaml
+services:
+    some_service: 
+        factory: 
+            some_factory:
+            - "str: My String 1"
+            - "str: My String 2"
+```
+
+
 Типы, в которые входит более одного класса, должны быть явно специфицированы в секции services.
+
+## Installation:
+
+Add this to composer.json:
+
+```javascript
+{
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://git@github.com/Qurum/IsonseiNoCnunyu.git"
+        }
+    ],
+    "require": {
+        "abethropalle/isonsei_no_cnunyu": "dev-master"
+    }
+}
+```
+You may be also interested in https://docs.github.com/en/authentication/troubleshooting-ssh/error-permission-denied-publickey
+
+For tests: edit phpunit.xml and set PATH_TO_DATATRANSFERPROJECTSTUB, which should be the path to the folder that contains the source code of https://github.com/Qurum/DataTransferProjectStub
