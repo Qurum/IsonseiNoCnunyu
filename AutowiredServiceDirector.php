@@ -6,6 +6,9 @@
 
 namespace Abethropalle\IsonseiNoChunyu;
 
+/**
+ * Директор для сервисов, созданных из файлов на диске.
+ */
 class AutowiredServiceDirector extends ServiceDirector
 {
     public function createService($name, $data)
