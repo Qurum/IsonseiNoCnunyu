@@ -12,10 +12,10 @@ class ContainerTest extends TestCase
     /**
      * @dataProvider \Abethropalle\IsonseiNoChunyu\Tests\Providers\ContainerProvider::provider_DataTransferProjectStub
      */
-    public function testBasicFunctionality($config, $items, $serialized_object)
+    public function testBasicFunctionality($config, $items, $encoded_object)
     {
         $container = new Container($config);
         array_walk($items, fn($item) => $container->get($item));
-        $this->assertEquals($serialized_object, serialize($container));
+        $this->assertEquals($encoded_object, base64_encode(serialize($container)));
     }
 }

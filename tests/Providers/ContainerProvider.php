@@ -19,7 +19,7 @@ class ContainerProvider
 
         $result = [];
         for ($i = 1; $i <= $this->num; $i++) {
-            $container = base64_decode(file_get_contents($container_file_path($i)));
+            $container = file_get_contents($container_file_path($i));
             $items = unserialize(file_get_contents($items_file_path($i)));
             $result[] = [$config_file_path($i), $items, $container];
         }

@@ -2,7 +2,6 @@ services:
   ProviderInterface: XmlProvider
   LoggerInterface: EchoLogger
   Main: 
-    factory: Main
     setup:
     - saySomething: ["str: somePhrase"]
 
