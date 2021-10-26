@@ -1,14 +1,14 @@
 services:
-    ProviderInterface: 
-        factory: 
-            OldProvider: 
-            - ImprovedXMLAdapter 
-            - "str: Hello World! "
-        setup:
-        - proceed: 
-            - "str:ok"
-            
-    ImprovedXMLAdapter:
-        setup:
-        - proceed:
-            - "str: XML Config"
+  ProviderInterface:
+    factory:
+      OldProvider:
+        - ImprovedXMLAdapter
+        - "str: Hello World! "
+    setup:
+      - proceed:
+          - "str:ok"
+
+  ImprovedXMLAdapter:
+    setup:
+      - proceed:
+          - "str: XML Config"

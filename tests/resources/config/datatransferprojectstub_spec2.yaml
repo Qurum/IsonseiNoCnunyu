@@ -1,6 +1,10 @@
 services:
   ProviderInterface: XmlProvider
   LoggerInterface: EchoLogger
+  Main: 
+    factory: Main
+    setup:
+    - saySomething: ["str: somePhrase"]
 
 namespace: Abethropalle\DataTransferProjectStub
 dir: Tests\resources\DataTransferProjectStub
