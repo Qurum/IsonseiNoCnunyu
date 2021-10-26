@@ -1,7 +1,7 @@
 services:
-    - alpha
-    - beta
-    - gamma
-    - delta
-    - epsilon
-    - zeta
+  - alpha
+  - beta
+  - gamma
+  - delta
+  - epsilon
+  - zeta

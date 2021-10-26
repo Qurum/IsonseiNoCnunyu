@@ -42,7 +42,6 @@ class Assembler
         $instance = $class->newInstanceArgs($args);
         $setup_callback = function ($setup) use ($instance) {
             $method = new ReflectionMethod($instance, $setup['method']);
-
             $method->invokeArgs($instance, $this->assembleArgs($setup['args']));
         };
         $setup = $item->getSetup();

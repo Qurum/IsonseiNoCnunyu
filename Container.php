@@ -19,7 +19,7 @@ class Container
     protected Config $config;
     protected ServiceAssemblyProvider $service_provider;
     protected Assembler $assembler;
-    protected array $instances = [];
+    protected InstancesContainer $instances;
 
     /**
      * @param $path
@@ -34,15 +34,16 @@ class Container
         NameHelper::setNamespace($namespace);
         $this->service_provider = new ServiceAssemblyProvider($path, $namespace, $dir);
         $this->assembler = new Assembler($this->service_provider);
+        $this->instances = new InstancesContainer();
     }
 
     /**
      * Проверяет, зарегистрирован ли сервис в контейнере.
      *
-     * @param $name
+     * @param string $name
      * @return bool
      */
-    public function has($name)
+    public function has(string $name)
     {
         return $this->service_provider->has($name);
     }
@@ -50,17 +51,21 @@ class Container
     /**
      * Возвращает инстанс по имени сервиса.
      *
-     * @param $name
+     * @param string $name
      * @return mixed|object
      * @throws \Exception
      */
-    public function get($name)
+    public function get(string $name)
     {
         if (is_null($this->service_provider)) {
             throw new \Exception('Провайдер сервисов не установлен');
         }
 
-        if (!isset($this->instances[$name])) {
+        if($this->instances->has($name)){
+            return $this->instances->get($name);
+        }
+
+        if (!($this->instances->has($name))) {
             $assembly = $this->service_provider->get($name);
 
             // Проверка на циклические зависимости
@@ -73,10 +78,10 @@ class Container
                 throw new \Exception('Ассемблер не установлен');
             }
 
-            $this->instances[$name] = $this->assembler->assemble($assembly);
+            $this->instances->add($name, $this->assembler->assemble($assembly));
 
         }
-        return $this->instances[$name];
+        return $this->instances->get($name);
     }
 
     /**

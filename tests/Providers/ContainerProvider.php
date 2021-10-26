@@ -8,17 +8,17 @@ namespace Abethropalle\IsonseiNoChunyu\Tests\Providers;
 
 class ContainerProvider
 {
-    protected $num = 1;
+    protected $num = 2;
 
     public function provider_DataTransferProjectStub()
     {
         $path = PATH_TO_RESOURCES;
-        $config_file_path = fn($i) => $path . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'datatransferprojectstub_spec' . $i .'.yaml';
-        $container_file_path = fn($i) => $path . DIRECTORY_SEPARATOR . 'container' . DIRECTORY_SEPARATOR . 'datatransferprojectstub_spec' . $i .'_container.dat';
-        $items_file_path = fn($i) => $path. DIRECTORY_SEPARATOR . 'container' . DIRECTORY_SEPARATOR . 'datatransferprojectstub_spec' . $i .'_entities.dat';
+        $config_file_path = fn($i) => $path . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'datatransferprojectstub_spec' . $i . '.yaml';
+        $container_file_path = fn($i) => $path . DIRECTORY_SEPARATOR . 'container' . DIRECTORY_SEPARATOR . 'datatransferprojectstub_spec' . $i . '_container.dat';
+        $items_file_path = fn($i) => $path . DIRECTORY_SEPARATOR . 'container' . DIRECTORY_SEPARATOR . 'datatransferprojectstub_spec' . $i . '_entities.dat';
 
         $result = [];
-        for($i = 1; $i<=$this->num; $i++){
+        for ($i = 1; $i <= $this->num; $i++) {
             $container = base64_decode(file_get_contents($container_file_path($i)));
             $items = unserialize(file_get_contents($items_file_path($i)));
             $result[] = [$config_file_path($i), $items, $container];
