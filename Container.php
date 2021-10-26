@@ -16,6 +16,11 @@ use Abethropalle\Utils\Graph\GraphBuilder;
  */
 class Container
 {
+    protected Config $config;
+    protected ServiceAssemblyProvider $service_provider;
+    protected Assembler $assembler;
+    protected array $instances = [];
+
     /**
      * @param $path
      * путь к конфигурационному файлу
@@ -25,24 +30,10 @@ class Container
         $this->config = new Config($path);
         $namespace = isset($this->config['namespace']) ? '\\' . $this->config['namespace'] : '';
         $dir = $this->config['dir'] ?? '';
+
         NameHelper::setNamespace($namespace);
         $this->service_provider = new ServiceAssemblyProvider($path, $namespace, $dir);
         $this->assembler = new Assembler($this->service_provider);
-    }
-
-    protected Config $config;
-    protected ServiceAssemblyProvider $service_provider;
-    protected Assembler $assembler;
-    protected array $instances = [];
-
-    public function setServiceAssemblyProvider(ServiceAssemblyProvider $sp)
-    {
-        $this->service_provider = $sp;
-    }
-
-    public function setAssembler(Assembler $asm)
-    {
-        $this->assembler = $asm;
     }
 
     /**
