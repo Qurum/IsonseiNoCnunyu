@@ -25,4 +25,11 @@ class ContainerProvider
         }
         return $result;
     }
+
+    public function provider2()
+    {
+        $confs = ['datatransferprojectstub_empty_section_services.yaml'];
+        $callback = fn($name) => [PATH_TO_TESTS_RESOURCES. DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . $name];
+        return array_map($callback, $confs);
+    }
 }

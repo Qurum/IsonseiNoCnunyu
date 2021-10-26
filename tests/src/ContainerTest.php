@@ -18,4 +18,13 @@ class ContainerTest extends TestCase
         array_walk($items, fn($item) => $container->get($item));
         $this->assertEquals($encoded_object, base64_encode(serialize($container)));
     }
+
+    /**
+     * @dataProvider \Abethropalle\IsonseiNoChunyu\Tests\Providers\ContainerProvider::provider2
+     */
+    public function testConfigFiles($config)
+    {
+        $container = new Container($config);
+        $this->assertTrue(true);
+    }
 }

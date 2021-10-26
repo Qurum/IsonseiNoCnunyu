@@ -19,6 +19,9 @@ class Config implements ArrayAccess
     public function __construct($path)
     {
         $this->container = Yaml::parseFile($path);
+        if (!isset($this->container['services'])) {
+            $this->container['services'] = [];
+        }
     }
 
     public function offsetSet($offset, $value)
