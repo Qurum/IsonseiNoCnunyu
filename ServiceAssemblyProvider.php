@@ -13,6 +13,7 @@ class ServiceAssemblyProvider
 {
     protected $services;
     protected $implementation_mapper;
+    protected $name_service_mapper;
     protected $config;
 
     public function __construct(
@@ -21,66 +22,42 @@ class ServiceAssemblyProvider
         $path = ''
     )
     {
+        $this->name_service_mapper = new NameServiceMapper($config_path, $path);
         $this->implementation_mapper = new ImplementationMapper($path, $namespace);
-        $this->registerServices($path, new Config($config_path));
-    }
-
-    protected function registerServices($path, $config)
-    {
-        $this->services = [];
-        $builder = new ServiceBuilder();
-
-        // services from disk
-        $autowir_director = new AutowiredServiceDirector();
-        $autowir_director->setBuilder($builder);
-        $provider = new ClassNamesProvider($path, $this->namespace);
-        foreach ($provider->nextClass() as $class_name) {
-            $service_name = substr($class_name, strlen($this->namespace) + 1);
-            $this->services[$service_name] = $autowir_director->createService($service_name, ['class_name' => $class_name]);
-        }
-
-        // services from config
-        $expl_director = new ExplicityServiceDirector();
-        $expl_director->setBuilder($builder);
-        foreach ($config['services'] as $name => $data) {
-            $this->services[$name] = $expl_director->createService($name, $data);
-        }
     }
 
     public function has($name)
     {
-        return isset($this->services[$name]);
+        return $this->name_service_mapper->has($name);
     }
 
-    protected function getServiceType(string $name)
+    protected function getServiceImplementation(string $name)
     {
-        if (!empty($this->services[$name])) {
-            $factory = $this->services[$name]->factory;
-
-            if(class_exists($factory, true)){
-                return $factory;
-            }
-
-            $qualified_name = str_starts_with($factory, $this->namespace)
-                ? $factory
-                : $this->namespace . '\\' . $factory;
-            return $qualified_name;
+        $name = NameHelper::get($name)->short;
+        if (! $this->has($name)) {
+            throw new Exception("Service $name has no factory");
         }
 
-        if (class_exists($name)) {
-            $reflection = new ReflectionClass($name);
-            if ($reflection->isInstantiable()) {
-                return $name;
-            }
+        $service = $this->name_service_mapper->get($name);
+        $factory = NameHelper::get($service->factory)->full;
+        $impl = $this->implementation_mapper->getImplementationsByType($factory);
+        if (empty($impl)) {
+            throw new Exception("Factory $factory has no implementation");
         }
-        throw new Exception("Service $name has no factory");
+        if (count($impl) != 1) {
+            throw new Exception("Factory $factory has multiple implementations");
+        }
+
+        return $impl[0];
     }
 
     protected function getServiceArgs($name)
     {
-        $cdi = new ClassDependenciesInspector($this->getServiceType($name));
+        $service = $this->name_service_mapper->get($name);
+        $impl = $this->getServiceImplementation($name);
+        $cdi = new ClassDependenciesInspector($impl);
         $args = $cdi->getConstructorDependencies();
-        $passed_args = $this->services[$name]?->args ?? [];
+        $passed_args = $service->args ?? [];
 
         array_walk($passed_args, function ($value, $key) use (&$args) {
             $args[$key] = $value;
@@ -90,21 +67,12 @@ class ServiceAssemblyProvider
 
     protected function getServiceSetup($name)
     {
-        return $this->services[$name]?->setup ?? [];
+        return $this->name_service_mapper->get($name)?->setup ?? [];
     }
 
     public function get(string $name): Assembly
     {
-        $type = $this->getServiceType($name);
-        $impl = $this->implementation_mapper->getImplementationsByType($type);
-        if (empty($impl)) {
-            throw new Exception("Factory $type has no implementation");
-        }
-
-        if (count($impl) != 1) {
-            throw new Exception("Factory $type has multiple implementations");
-        }
-
-        return new Assembly(array_pop($impl), $this->getServiceArgs($name), $this->getServiceSetup($name));
+        $impl = $this->getServiceImplementation($name);
+        return new Assembly($impl, $this->getServiceArgs($name), $this->getServiceSetup($name));
     }
 }
