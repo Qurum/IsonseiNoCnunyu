@@ -1,0 +1,4 @@
+services:
+
+namespace: Abethropalle\DataTransferProjectStub
+dir: Tests\resources\DataTransferProjectStub

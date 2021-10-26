@@ -1,0 +1,11 @@
+namespace: Abethropalle\DataTransferProjectStub
+dir: Tests\resources\DataTransferProjectStub
+
+services:
+    ProviderInterface: 
+        factory: XmlProvider
+        
+    LoggerInterface: 
+        factory: EchoLogger
+        
+    Main: Main
