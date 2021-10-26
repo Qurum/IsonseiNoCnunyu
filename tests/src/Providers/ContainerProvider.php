@@ -8,7 +8,7 @@ namespace Abethropalle\IsonseiNoChunyu\Tests\Providers;
 
 class ContainerProvider
 {
-    protected $num = 2;
+    protected $num = 3;
 
     public function provider_DataTransferProjectStub()
     {
@@ -28,7 +28,10 @@ class ContainerProvider
 
     public function provider2()
     {
-        $confs = ['datatransferprojectstub_empty_section_services.yaml'];
+        $confs = [
+            'datatransferprojectstub_empty_section_services.yaml',
+            'datatransferprojectstub_config_from_readme.yaml'
+        ];
         $callback = fn($name) => [PATH_TO_TESTS_RESOURCES. DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . $name];
         return array_map($callback, $confs);
     }
