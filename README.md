@@ -47,6 +47,17 @@ services:
     some_service2: some_factory2
 ```
 
+Методу (в т.ч. конструктору) может быть передана строка, начинающаяся с префикса str:
+```yaml
+services:
+    some_service: 
+        factory: 
+            some_factory:
+            - "str: My String 1"
+            - "str: My String 2"
+```
+
+
 Типы, в которые входит более одного класса, должны быть явно специфицированы в секции services.
 
 ## Installation:
