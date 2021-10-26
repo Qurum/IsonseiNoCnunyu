@@ -1,4 +1,9 @@
 {
+  "name": "abethropalle/isonsei_no_cnunyu",
+  "description": "Simple DI container.",
+  "version": "0.5.0",
+  "type": "library",
+  "license": "MIT",
   "repositories": [
     {
       "type": "vcs",
